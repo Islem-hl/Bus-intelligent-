@@ -3,6 +3,7 @@ import { FaBus, FaClock, FaMapMarkerAlt, FaUserGraduate, FaSearch, FaCheckCircle
 import { useAuth } from '../../contexts/AuthContext';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { data } from 'react-router-dom';
 
 // Fonction pour calculer la durée en secondes entre arrival_time et departure_time
 const calculateDuration = (arrival, departure) => {
@@ -52,6 +53,7 @@ export default function StatsSection() {
 
   // Récupérer les données des stops et stoptimes depuis MongoDB
   useEffect(() => {
+      console.log("useEffect appelé avec token =", token);
     const fetchStopsData = async () => {
       try {
         setLoading(true);
@@ -111,35 +113,43 @@ export default function StatsSection() {
     };
 
     const fetchStudentsData = async () => {
-      try {
+      
+       try { 
         setStudentsLoading(true);
         // Simuler des données d'élèves - remplacez par votre API réelle
-        const studentsResponse = {
-          present: [
-            { id: 1, name: 'Issam Abdallah', busNumber: 'Bus 001' },
-            { id: 2, name: 'Abir Brahem', busNumber: 'Bus 001' },
-            { id: 3, name: 'Zeineb Issaoui', busNumber: 'Bus 001' },
-            { id: 4, name: 'Nour El Imen', busNumber: 'Bus 001' },
-            { id: 9, name: 'Fatma Ben Ali', busNumber: 'Bus 001' },
-            { id: 10, name: 'Ahmed Trabelsi', busNumber: 'Bus 001' },
-            { id: 11, name: 'Islem Haouala', busNumber: 'Bus 001' },],
-        
-          absent: [
-            { id: 5, name: 'Sara Haddad', busNumber: 'Bus 001' },
-            { id: 6, name: 'Mohamed Kamel', busNumber: 'Bus 001' },
-            { id: 7, name: 'Salah Eddine', busNumber: 'Bus 001' },
-            { id: 8, name: 'Arwa Mansouri', busNumber: 'Bus 001' },
-          ],
-        };
-        setStudentsData(studentsResponse);
-        
+        const response = await fetch('http://192.168.1.13:5000/api/presence');
+        if (!response.ok) {
+      throw new Error('Erreur HTTP : ' + response.status);
+    }
+          const data = await response.json();
+          
+          console.log("Données reçues du backend", data);
+          
+    if (!data || !Array.isArray(data.present) ) {
+      throw new Error("Données invalides reçues");
+    }
+    console.log("Données reçues du backend", data);
+
+    setStudentsData({
+      present: data.present,
+      
+    });
+          // [{name: data.name, busNumber:'Bus 001'}],
+          
+            //{ id: 1, name: 'Issam Abdallah', busNumber: 'Bus 001' },
+            
+
         // Simuler des notifications récentes
-        const notificationsData = [
+        const notificationsData = data.present.map((student, index) => ({
+ 
          // { id: 1, message: 'Bus 001 a quitté l\'école à 16:30', timestamp: new Date(Date.now() - 5000), type: 'info' },
-          { id: 1, message: 'Élève Ahmed Trabelsi est monté à l\'arrêt Centre Ville', timestamp: new Date(Date.now() - 15000), type: 'success' },
+          //{ id: 1, message: 'Élève Ahmed Trabelsi est monté à l\'arrêt Centre Ville', timestamp: new Date(Date.now() - 15000), type: 'success' },
           //{ id: 3, message: 'Retard de 5 minutes détecté sur la ligne principale', timestamp: new Date(Date.now() - 30000), type: 'warning' },
           //{ id: 4, message: 'Sara Haddad marquée comme absente', timestamp: new Date(Date.now() - 45000), type: 'error' },
-        ];
+      id: index + 1,
+      message: `Élève ${student.name} est monté à l'arrêt ${student.stop || 'inconnu'}`,
+      timestamp: new Date(), // ou utilise eleve.timestamp s'il existe dans la base
+      type: 'success',}));
         // Trier les notifications par timestamp décroissant (plus récente en premier)
         notificationsData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
         setNotifications(notificationsData);
@@ -152,6 +162,7 @@ export default function StatsSection() {
       }
     };
 
+    
     if (token) {
       fetchStopsData();
       fetchStudentsData();
@@ -170,9 +181,9 @@ export default function StatsSection() {
       
       STATISTIQUES GÉNÉRALES:
       - Nombre d'arrêts enregistrés: ${stopsData.length}
-      - Élèves présents: ${studentsData.present.length}
-      - Élèves absents: ${studentsData.absent.length}
-      - Total élèves: ${studentsData.present.length + studentsData.absent.length}
+      - Élèves présents: ${data.present.length}
+      - Élèves absents: ${data.absent.length}
+      - Total élèves: ${data.present.length + data.absent.length}
       
       DÉTAIL DES ARRÊTS:
       ${stopsData.map((stop, index) => `
@@ -184,12 +195,12 @@ export default function StatsSection() {
       `).join('')}
       
       ÉLÈVES PRÉSENTS:
-      ${studentsData.present.map((student, index) => `
+      ${data.present.map((student, index) => `
       ${index + 1}. ${student.name} (${student.busNumber})
       `).join('')}
       
       ÉLÈVES ABSENTS:
-      ${studentsData.absent.map((student, index) => `
+      ${data.absent.map((student, index) => `
       ${index + 1}. ${student.name} (${student.busNumber})
       `).join('')}
     `;
@@ -205,11 +216,11 @@ export default function StatsSection() {
   };
 
   // Filtrer les élèves selon le terme de recherche
-  const filteredPresentStudents = studentsData.present.filter((student) =>
+  const filteredPresentStudents = data.present.filter((student) =>
     student.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredAbsentStudents = studentsData.absent.filter((student) =>
+  const filteredAbsentStudents = data.absent.filter((student) =>
     student.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -233,7 +244,7 @@ export default function StatsSection() {
             <div>
               <FaCheckCircle className="text-3xl mb-2" />
               <h3 className="text-lg font-semibold">Élèves Présents</h3>
-              <p className="text-2xl font-bold">{studentsData.present.length}</p>
+              <p className="text-2xl font-bold">{data.present.length}</p>
             </div>
           </div>
         </div>
@@ -243,7 +254,7 @@ export default function StatsSection() {
             <div>
               <FaTimesCircle className="text-3xl mb-2" />
               <h3 className="text-lg font-semibold">Élèves Absents</h3>
-              <p className="text-2xl font-bold">{studentsData.absent.length}</p>
+              <p className="text-2xl font-bold">{data.absent.length}</p>
             </div>
             <button
               onClick={handleGenerateReport}
@@ -318,7 +329,7 @@ export default function StatsSection() {
               </div>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold">{studentsData.present.length + studentsData.absent.length}</div>
+              <div className="text-2xl font-bold">{data.present.length + data.absent.length}</div>
               <div className="text-indigo-100 text-sm">Total Élèves</div>
             </div>
           </div>
