@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Connexion</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-container {
+      background-color: #fff;
+      padding: 70px;
+      border-radius: 18px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #555;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #bfbfbf;
+      border-radius: 5px;
+    }
+    .login-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .login-btn:hover {
+      background-color: #0056b3;
+    }
+    .google-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #fff;
+      color: #757575;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .google-btn:hover {
+      background-color: #f5f5f5;
+    }
+    .google-icon {
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+    }
+    .previous {
+      background-color: #f1f1f1;
+      color: black;
+    }
+    a {
+      text-decoration: none;
+      display: inline-block;
+      padding: 8px 16px;
+    }
+    a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .round {
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <a href="access.html" class="previous round">&#8249;</a>
+    <h2>Connexion Admin</h2>
+    <div class="form-group">
+      <label for="email">Nom d'utilisateur</label>
+      <input type="email" id="email" placeholder="Entrez votre e-mail" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" placeholder="Entrez votre mot de passe" required>
+    </div>
+    <button class="login-btn" onclick="login()">Se connecter</button>
+    
+    <!-- Bouton Google ajouté ici -->
+    <button class="google-btn" onclick="signInWithGoogle()">
+      <img src="https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1" class="google-icon">
+      Se connecter avec Google
+    </button>
+    
+
+    <p id="message" style="color:red;"></p>
+  </div>
+
+  <!-- Firebase (votre code existant) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+  <script>
+    // Votre configuration Firebase existante
+    const firebaseConfig = {
+      apiKey: "AIzaSyAoGKizXeTAq7gnfsM3lI7wpnIB_cPT-14",
+      authDomain: "suivigps-aa101.firebaseapp.com",
+      projectId: "suivigps-aa101"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Votre fonction login() existante
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          window.location.href = "index.html";
+        })
+        .catch((error) => {
+          document.getElementById("message").innerText = "Erreur : " + error.message;
+        });
+    }
+
+    // Nouvelle fonction pour la connexion Google
+    function signInWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      
+      firebase.auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+          window.location.href = "index.html";
+        }).catch((error) => {
+          document.getElementById("message").innerText = "Erreur Google : " + error.message;
+        });
+    }
+  </script>
+</body>
+</html>

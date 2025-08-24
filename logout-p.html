@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouton Déconnexion</title>
+    
+</head>
+<body>
+    <button class="logout-parent " onclick="logout()">Déconnexion</button>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+    <script>
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAoGKizXeTAq7gnfsM3lI7wpnIB_cPT-14",
+            authDomain: "suivigps-aa101.firebaseapp.com",
+            projectId: "suivigps-aa101"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Vérifier si l'utilisateur est connecté
+        firebase.auth().onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = "dashbord-parent.html"; // Redirection si non connecté
+            }
+        });
+
+        // Fonction de déconnexion
+        function logout() {
+            firebase.auth().signOut().then(() => {
+                // Rediriger vers login.html après déconnexion
+                window.location.href = "login-parent.html";
+            }).catch((error) => {
+                alert("Erreur lors de la déconnexion : " + error.message);
+            });
+        }
+    </script>
+</body>
+</html>

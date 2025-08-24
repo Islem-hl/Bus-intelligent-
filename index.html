@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Bus Tracker</title>
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+</head>
+<body>
+
+<div class="menu-toggle"> 
+  <i class="fa-solid fa-bars"></i> Menu</div>
+
+  <div class="barre_admin">
+    <h1> <i class="fa-solid fa-bus"></i>
+       Bus Scolaire Intelligent - Espace Administration</h1></div>
+      
+   <div class="heure_date" id="heure_date"></div>
+    <script>
+      function afficherDateHeure() {
+        const maintenant = new Date();
+        const options = { 
+          weekday: 'long', 
+          /*year: 'numeric',*/ 
+          month: 'long', 
+          day: 'numeric', 
+          hour: '2-digit', 
+          minute: '2-digit' ,
+          second:'2-digit' 
+        };
+        document.getElementById('heure_date').textContent = 
+        maintenant.toLocaleDateString('fr-FR', options);
+    }
+
+      // Mettre à jour l'heure toutes les secondes
+      setInterval(afficherDateHeure, 1000);
+      afficherDateHeure(); // Appel initial
+  </script>
+  <div
+    class="dash">
+  <h3> Tableau de bord</h3></div>
+
+
+  <div class="sidebar">   
+     
+  <a href="#Dashbord"><i class="fa-solid fa-location-dot"></i> Localisation</a>
+  <a id="stat" href="#statistiques"> <i class="fa-solid fa-user-check"></i> Présence</a>
+  <a href="#Historique" onclick="genererRapport()" ><i class="fa-solid fa-file"></i>  Rapport</a>
+  <a id ="info" href="#Administration"><i class="fa-solid fa-user-tie"></i>  Administration</a></div>
+ 
+  <button class="logout-button" id="logoutBtn"> ⏻ Déconnexion</button>
+  
+  <div id="map"></div>
+
+  <div class="bus-stops-container" style=" color: #55616e;">
+  <h4>Arrêts</h4>
+  <span><h5> Aller (TOUZA → École)</h5></span></div>
+  <div>
+    <table class="bus-stops-table">
+    <thead>
+      <tr>
+        <th style="width: 65%;">Arrêt</th>
+        <th style="width: 25%;">Heure d’arrivée</th>
+        <th style="width: 20%;">Statut</th>
+      </tr>
+    </thead>
+    <tbody id="busStopsBody">
+      <!-- Les arrêts seront injectés ici -->
+    </tbody>
+  </table>
+</div>
+
+  <div class="bus-stops-container_retour" style=" color: #55616e;">
+  <span><h5> Retour (École → TOUZA)</h5></span></div>
+<div>
+    <table class="bus-stops-table_retour">
+    <thead>
+      <tr>
+        <th style="width: 65%;">Arrêt</th>
+        <th style="width: 25%;">Heure d’arrivée</th>
+        <th style="width: 20%;">Statut</th>
+      </tr>
+    </thead>
+    <tbody id="busStopsBodyRetour">
+     
+    </tbody>
+  </table>
+</div>
+<!--<h3 id="etatTrajet" style="color:green;">🟢 Trajet aller en cours...</h3>
+-->
+
+  <div class="presence-button">
+  <i class="fa-solid fa-users"></i>
+   <span id="present-totale"></span>
+
+ </div>
+
+ <div id="gestion" class="modal_ad">
+   <div class="modal-content_ad">
+      <span class="close_ad">&times;</span>
+      <div class="ad_barre"><h1><i class="fa-brands fa-black-tie" style="color: #dbe5f5;">
+      </i> Gestion administrative  </h1></div>
+
+        <div class="tables-container-ad">
+    <!-- Tableau des eleves -->
+    <div class="color-col">
+    <div class="title_eleve"><h3><i class="fas fa-user-graduate" ></i>
+      Liste des Elèves </h3></div>
+      <table >
+        <tr>
+          <th class="blue" style="width: 80%;">NOM D'UTILISATEUR </th>
+          <th class="blue" style="width: 60%;">BADGE ID</th>
+          <th class="blue" style="width: 80%;">NOM DU PARENT</th>
+          <th class="blue" style="width: 60%;">NUM DU PARENT</th>
+          <th class="blue" style="width: 60%;">ADRESSE</th>
+          <th class="blue" style="width: 30%;">NIVEAU</th>
+        </tr>
+        <tr>
+        <td>HAOUALA Islem</td>
+          <td>03E4251C</td>
+          <td>HAOUALA Imed</td>
+          <td>98722345</td>
+          <td>Station TOUZA</td>
+          <td>6éme</td>
+        </tr>
+        <tr>
+        <td>AMAIRI Nour</td>
+          <td>72644C01</td>
+          <td>AMAIRI Sami</td>
+          <td>24321555</td>
+          <td>Station Jammel </td>
+          <td>3éme</td>
+        </tr>
+        <tr>
+        <td>KHLIFA Mohamed ali</td>
+          <td>09958F9E</td>
+          <td>KHLIFA Mabrouk</td>
+          <td>94321555</td>
+          <td>Station Emka Med </td>
+          <td>5éme</td>
+        </tr>
+        <tr>
+        <td>ZAYED Yassin</td>
+          <td>0A3V8F9E</td>
+          <td>ZAYED Nouri</td>
+          <td>56701555</td>
+          <td>Station Collège</td>
+          <td>4éme</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Tableau des parents -->
+    <div class="color-col">
+    <div class="title_parent"><h3><i class="fa-solid fa-person-breastfeeding"></i>
+      Liste des parents </h3></div>
+      <table >
+        <tr>
+          <th class="green" style="width: 80%;">NOM D'UTILISATEUR</th>
+          <th class="green" style="width: 50%;">CIN</th>
+          <th class="green" style="width: 70%;">E-MAIL</th>
+          <th class="green" style="width: 50%;">TELEPHONE</th>
+          <th class="green" style="width: 80%;">ELEVE</th>
+        </tr>
+        <tr>
+          <td>HAOUALA Imed</td>
+          <td>04555670</td>
+          <td>Imed1@gmail.com</td>
+          <td>98722345</td>
+          <td>HAOUALA Islem</td>
+        </tr>
+
+        <tr>
+          <td>AMAIRI Sami</td>
+          <td>12644321</td>
+          <td>Samii2@gmail.com</td>
+          <td>24321555</td>
+          <td>AMAIRI Nour</td>
+        </tr>
+
+        <tr>
+          <td>KHLIFA Mabrouk</td>
+          <td>14509876</td>
+          <td>bkmabrouk@gmail.com</td>
+          <td>94321555</td>
+          <td>KHLIFA Mohamed ali</td>
+        </tr>
+
+        <tr>
+         <td>ZAYED Nouri</td>
+          <td>00498756</td>
+          <td>nouri@gmail.com</td>
+          <td>56701555</td>
+          <td>ZAYED Yassin</td>
+        </tr>
+    </table>
+  </div>
+
+    <!-- Tableau des conducteur -->
+    <div class="color-col">
+    <div class="title_cond"><h3><i class="fa-solid fa-bus-simple"></i>
+      Liste des conducteurs </h3></div>
+      <table >
+        <tr>
+          <th class="pink" style="width: 80%;">NOM D'UTILISATEUR</th>
+          <th class="pink" style="width: 50%;">MATRICULE</th>
+          <th class="pink" style="width: 50%;">CIN</th>
+          <th class="pink" style="width: 50%;">TELEPHONE</th>
+          <th class="pink" style="width: 70%;">E-MAIL</th>
+          <th class="pink" style="width: 50%;">HORAIRE</th>
+        </tr>
+        <tr>
+        <td>AMOR Ahmed</td>
+          <td>3609AA</td>
+          <td>14059830</td>
+          <td>54333222</td>
+          <td>ahmed3@gmail.com</td>
+          <td>7:15h-13h</td>
+        </tr>
+          <td>NEJI Yassin</td>
+          <td>3300NY</td>
+          <td>04055590</td>
+          <td>90888432</td>
+          <td>yassin4@gmail.com</td>
+          <td>13:30h-18h</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+  <div id="presenceModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="statis"><h1><i class="fa-solid fa-square-poll-vertical fa-flip-horizontal" 
+        style="color: #e3eaf8;"></i>  Statistiques de présence  </h1></div>
+      <div class="stats">
+
+        <div class="notif"> <h2><i class="fa-solid fa-bell"></i> Notifications</h2></div>
+        <div id="notif-container" class="notif-container">
+        <p><i class="fa-solid fa-bell"></i>Aucune notification</p></div>
+        
+      <div class="liste_eleve" ><h2><i class="fa-solid fa-user-graduate"></i> Liste des élèves </h2>
+      <h2> <i class="total"></i> Total: <span id="statsTotal"></span></div></h2>
+      
+      <div class="tables-container">
+    <!-- Tableau des présents -->
+    <div class="vert">
+      <h3  id="present-title">✅Élèves Présents </h3>
+      
+      <table class="present">
+        <thead>
+          <tr>
+            <th class="vert" style="width: 30%;">#</th>
+            <th class="vert" style="width: 50%;">Nom</th>
+            <th class="vert" style="width: 30%;"><i class="fa-solid fa-clock"></i> Entrée</th>
+            <th class="vert" style="width: 30%;"><i class="fa-solid fa-clock"></i> Sortie</th>
+          </tr>
+        </thead>
+        <tbody id="present-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Tableau des absents -->
+    <div class="red" >
+      <h3 id="absent-title">❌Élèves Absents </h3>
+      <table class="absent">
+        <thead>
+          <tr>
+            <th class="red" style="width: 30%;">#</th>
+            <th class="red" style="width: 50%;">Nom</th>
+            <th class="red" style="width: 30%;">Statut</th>
+          </tr>
+        </thead>
+        <tbody id="absent-body"></tbody>
+      </table>
+    </div>
+    </div>
+    </div>
+  </div>
+  </div>
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="scripts/config.js"></script>
+  <script src="scripts/auth.js"></script>
+  <script src="scripts/map.js"></script>
+  <script src="scripts/gps.js"></script>
+  <script src="scripts/presence.js"></script>
+  <script src="scripts/admin.js"></script>
+  
+
+  <script type="module">
+  import 'https://unpkg.com/lucide@latest/dist/esm/lucide.js';
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

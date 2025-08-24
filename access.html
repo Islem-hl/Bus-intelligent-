@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Choix d'accès</title>
+ <!-- CSS -->
+  <style>
+    body {
+      background: #f2f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif; 
+    }
+    .choix-container {
+      text-align: center;
+      background: white;
+      padding: 60px;
+      border-radius: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .choix-container h2 {
+      margin-bottom: 30px;
+    }
+    .choix-btn {
+      padding: 15px 30px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4cae9c;
+      color: white;
+      transition: 0.3s;
+    }
+    .choix-btn:hover {
+      background-color: #3b9b8a;}
+  </style>
+<body>
+  <div class="choix-container">
+    <h2>Bus Scolaire Intelligent</h2>
+    <button class="choix-btn" onclick="window.location.href='login.html'">Espace Administration</button>
+    <button class="choix-btn" onclick="window.location.href='login-parent.html'">Espace Parent</button>
+  </div>
+</body>
+</html>

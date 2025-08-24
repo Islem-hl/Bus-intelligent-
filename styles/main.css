@@ -1,0 +1,846 @@
+.logout-button {
+  background-color: #f1fbfb;
+  position: fixed;
+  bottom: 20px;
+  left: 30px;
+  color: #4cae9c;
+  border: none;
+  padding: 15px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #a8dadc;
+}
+.barre_admin {
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to right, #5cb8a7, #a8dadc);
+   color: white;
+  height: 70px;
+  border-radius: 8px 8px 0 0;
+ box-shadow: 0 2px 6px rgba(86, 139, 122, 0.617);
+  font-size: 15px;
+  font-weight: bold;
+  position:sticky;
+  top: 0;
+  padding: 0 20px;
+   z-index: 0;
+}
+
+.barre_admin h1 {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  white-space: nowrap;
+}
+
+
+/*title tableau de bord */
+.dash {
+  text-align:left;
+  margin-top: 30px;
+  margin-left: 240px; /* pour ne pas être sous la sidebar */
+}
+.dash h3{
+   font-size: 26px;
+  font-weight: bold;
+    color: #55616e;
+}
+
+.heure_date{
+  position:absolute;
+  top: 35px;
+  right: 20px;
+  color: #52605d;
+  font-size: 15px;
+  font-weight:bold;
+}
+
+.bus-stops-container {
+ position:absolute;
+  top: 90px;
+  right: 270px;
+  font-family: 'Segoe UI', sans-serif;
+ line-height: 8px;
+  
+}
+
+.bus-stops-container h2 {
+  margin-top: 5px;
+  font-size: 26px;
+  color: #ffffff;
+   
+}
+.bus-stops-table {
+  position: absolute;
+  top: 160px;
+  right: 20px;
+  background: #dff1f7;
+  border-radius: 8px;
+  padding: 14px;
+  width: 400px;
+  box-shadow: 0 0 10px rgba(87, 98, 116, 0.138);
+  font-family: 'Segoe UI', sans-serif;
+}
+.bus-stops-table table {
+  width: 97%;
+  border-collapse: collapse;
+   background-color: #d9eff7;
+}
+.bus-stops-table tr td{
+  background-color: #fcfefc;
+   border: 1px solid #dff1f7;
+   padding: 9px;
+  text-align: left;
+  font-size: small;
+    font-family: 'Segoe UI', sans-serif;
+    color: #323333;
+    font-weight:600;
+}
+.bus-stops-table th {
+  border: 1px solid #dff1f7;
+  background-color: #d9eff7;
+  padding: 7px;
+  text-align: left;
+  font-size: small;
+    font-family: 'Segoe UI', sans-serif;
+
+}
+
+/* retour*/
+
+
+.bus-stops-container_retour {
+ position:absolute;
+  top: 430px;
+  right: 270px;
+  font-family: 'Segoe UI', sans-serif;
+ line-height: 8px;
+  
+}
+
+.bus-stops-container_retour h2 {
+  margin-top: 5px;
+  font-size: 24px;
+  color: #ffffff;
+   
+}
+.bus-stops-table_retour {
+  position: absolute;
+  top: 470px;
+  right: 20px;
+  background: #dff1f7;
+  border-radius: 8px;
+  padding: 14px;
+  width: 400px;
+  box-shadow: 0 0 10px rgba(87, 98, 116, 0.138);
+  font-family: 'Segoe UI', sans-serif;
+}
+.bus-stops-table_retour table {
+  width: 97%;
+  border-collapse: collapse;
+   background-color: #d9eff7;
+}
+.bus-stops-table_retour tr td{
+  background-color: #fcfefc;
+   border: 1px solid #dff1f7;
+   padding: 9px;
+  text-align: left;
+  font-size: small;
+    font-family: 'Segoe UI', sans-serif;
+    color: #323333;
+    font-weight:600;
+}
+.bus-stops-table_retour th {
+  border: 1px solid #dff1f7;
+  background-color: #d9eff7;
+  padding: 7px;
+  text-align: left;
+  font-size: small;
+    font-family: 'Segoe UI', sans-serif;
+
+}
+#map {
+  height: 85vh;
+  width: 58%;
+  display: block;
+   margin-left:14%;
+ 
+}
+
+ /* Styles pour le bouton et modal de présence */
+.presence-button {
+ width: 50px;                /* Largeur fixe */
+ border-bottom-right-radius: 20px;             /* Positionné en bas */
+  padding: 15px;
+  background: linear-gradient(to bottom, #34d399, #10b981); /* vert dégradé */
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  color: white;
+  text-align: flex-end;
+  display: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin: 20px auto; /* centré sous les tableaux */
+  
+}
+.presence-button i {
+  font-size: 20px;
+}
+
+
+/*background fenetre statistique*/ 
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+}
+/*fenetre statistique */
+.modal-content {
+  background-color: #ffffff;
+  position: relative;
+  height: 100%;              /* ⬆️ Augmenté de 55% à 70% */
+  padding: 30px 50px 50px 50px; /* ⬆️ Un peu plus d’espace intérieur */
+  border-radius: 12px;      /* ⬆️ Coins un peu plus arrondis */
+  width: 70%;               /* ⬆️ Plus large */
+  max-width: 1000px;        /* ⬆️ Limite élargie */
+  margin:auto;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3); /* ombre plus douce */
+  overflow:scroll;
+  animation: fadeIn 0.3s ease-in-out; /* Animation d'apparition */
+  display: flex;
+}
+
+/*statistique des présences*/
+.statis {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: linear-gradient(to right, #2352ed, #4486d6);
+  color: white;
+  padding: 1px 5px;
+  height:1cm;
+  border-radius: 8px 8px 0px 0px ;
+  font-size: 10px;
+  font-weight:normal;
+  display: flex;                 /* utilisation de Flexbox */
+  align-items: center;          /* centrer verticalement */
+  
+}
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1002;
+}
+
+.close:hover {
+  color: red;
+}
+
+/*barre*/
+.notif {
+  position: relative; /* plus besoin de absolute sauf si nécessaire */
+  top: 30px;
+  width: 100%;  /* ✅ Prend toute la largeur de la fenêtre */
+  background: linear-gradient(to right, #8c3ded, #c989f7da);
+  color: white;
+  padding: 8px 20px;  /* ✅ Un padding horizontal classique */
+  height: 1.5cm;
+  border-radius: 8px 8px 0 0;
+  font-size: 14px;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;  /* séparer a gauche droite */
+  box-sizing: border-box; /* ✅ pour que padding soit bien compté dans les 100% */
+  z-index: 10; /* au besoin */
+
+}
+
+.notif-messages {
+  background-color: #f9f9f9;
+  padding: 10px 20px;
+  border: 1px solid #e0e0e0;
+  top: 10px;
+  font-size: 14px;
+  color: #333;
+  max-height: 0px;
+  overflow-y:visible; /* Enable vertical scrolling */
+  padding-right: 10px; /* Espace pour scrollbar */
+  border: 0px solid #e9eff3; /* Optional: Add a border for visibility */
+   box-shadow: 0px 4px 15px rgba(188, 196, 201, 0.962);
+}
+.notif-messages p {
+  margin-top: 0px ;
+}
+/*conteneur (blanc)*/
+.notif-container {
+  position: relative;
+  background: white;
+  top: 30px;
+  border-radius: 0 0 10px 10px;
+  padding: 40px;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  overflow-y: scroll; /* Enable vertical scrolling */
+  height: 200px; /* Set a fixed height for the container */
+  box-shadow: 0 0 8px 0 rgba(188, 196, 201, 0.962);
+}
+/* texte no notif*/
+.notif-container .no-notif {
+  color: #a0a0a0;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  overflow:auto; /* Enable vertical scrolling */
+}
+
+/* alert color*/
+.notif-container .no-notif i {
+  font-size: 30px;
+  color: #c8c8c8;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/*barre message */
+.notif-item {
+  position:-ms-page;
+  background-color: #fcf8fc;
+  margin: 1px ;
+  padding: 10px 70px;
+  border-radius: 8px;
+  width: 250%;
+  max-width: 80%;
+  text-align: left;
+  box-shadow: 0px 2px 18px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.3s ease-in-out; /* Animation d'apparition */
+  display: block;
+
+}
+
+.notif-item.montee {
+  border-left: 4px solid #29c72b;
+  background-color: #f8fff8;
+}
+
+.notif-item.descente {
+  border-left: 4px solid #f34f4f;
+  background-color: #fff8f8;
+}
+
+.notif-item_ab {
+  position:-ms-page;
+  background-color: #ffffff;
+  margin: 5px ;
+  padding: 10px 70px;
+  border-radius: 8px;
+  width: 250%;
+  max-width: 80%;
+  text-align: left;
+  box-shadow: 0px 2px 18px rgba(0, 0, 0, 0.05);
+  left: 0px;
+  
+}
+/*text notif "islem est montée" */
+.notif-item p {
+  margin: 0;
+  font-weight: 500;
+  color: #333;
+  line-height: 1.4;
+}
+
+.notif-time {
+  font-size: 13px;
+  color: #888;
+  display: block;
+  margin-top: 4px;
+  margin-left: 1px;
+  
+}
+
+
+.liste_eleve {
+  position: relative; /* plus besoin de absolute sauf si nécessaire */
+  top: 60px;
+  width: 100%;  /* ✅ Prend toute la largeur de la fenêtre */
+  background: linear-gradient(to right, #46a5b1da, #6abfd3);
+  color: white;
+  padding: 10px 20px;  /* ✅ Un padding horizontal classique */
+  height: 2cm;
+  border-radius: 8px 8px 0 0;
+  font-size: 14px;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;  /* séparer a gauche droite */
+  box-sizing: border-box; /* ✅ pour que padding soit bien compté dans les 100% */
+  z-index: 10; /* au besoin */
+}
+
+
+
+
+.total{
+  text-align: right;
+  
+}
+ .tables-container {
+  display:flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 60px;
+  overflow:auto; /* Enable vertical scrolling */
+  padding-right: 10px; /* Espace pour scrollbar */
+  border: 1px solid #e9eff3; /* Optional: Add a border for visibility */
+   box-shadow: 0 0 8px 0 rgba(188, 196, 201, 0.962);
+   border-radius: 0 0 10px 10px;
+  height: 290px;
+   /*scroll-behavior: smooth; /* Enables smooth scrolling */
+  
+}
+
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+/*text colonne*/
+.vert{
+  color: #28a745;
+  width: 50%;}
+.red{
+  color: #df0a1c;
+  width: 45%;}
+
+
+td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/*lignes colonnes*/
+th, td {
+  padding: 10px 10px 10px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.present {
+  border: 2px solid #51c06b;
+}
+/*colonne color*/
+.present thead {
+  background-color: #e4ffeb;
+  color: white;
+}
+
+.present tbody tr td{
+  background-color: #fcfefc;
+}
+
+.absent {
+  border: 2px solid #dc3545;
+}
+
+/*colonne color*/
+.absent thead {
+  background-color: #ffdde0;
+  color: white;
+}
+
+.absent tbody tr td {
+  background-color: #ffffff;
+}
+
+
+/* Style the sidebar - fixed full height (barre menu) */
+.sidebar {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 0;
+  top: 78px;
+  left: 10px;
+  background: linear-gradient(to bottom, #ffffffda, #ffffffda);
+  border-radius: 0px 10px 0px 0px ;
+  box-shadow: 0 2px 6px rgba(86, 139, 122, 0.617);
+  padding-top: 20px;
+}
+
+
+/* Style sidebar links (localisation,presence .. */
+.sidebar a {
+  padding: 20px 10px 20px 16px;
+  text-decoration:dashed;
+  font-size: 20px;
+  color: #55616e;
+  display: block;
+}
+
+/* Style links on mouse-over */
+.sidebar a:hover {
+  color: #7cceb7;
+}
+
+/* Style the main content */
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  padding: 0px 10px;
+}
+
+/* Add media queries for small screens (when the height of the screen is less than 450px, add a smaller padding and font-size) */
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+  text-decoration: none;
+}
+.menu-item lucide-icon,
+.menu-item i {
+  width: 20px;
+  height: 20px;
+  color: black;
+}
+
+.ad_barre {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: linear-gradient(to right, #2352ed, #4486d6);
+  color: white;
+  padding: 1px 8px;
+  height:1cm;
+  border-radius: 8px 8px 0px 0px ;
+  font-size: 10px;
+  font-weight:normal;
+  display: flex;                 /* utilisation de Flexbox */
+  align-items: center;          /* centrer verticalement */
+  
+}
+/*background fenetre statistique*/ 
+.modal_ad {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+}
+/*fenetre administration */
+.modal-content_ad {
+  background-color: #ffffff;
+  position: relative;
+  height: 100%;              /* ⬆️ Augmenté de 55% à 70% */
+  padding: 30px 50px 50px 50px; /* ⬆️ Un peu plus d’espace intérieur */
+  border-radius: 12px;      /* ⬆️ Coins un peu plus arrondis */
+  width: 70%;               /* ⬆️ Plus large */
+  max-width: 1000px;        /* ⬆️ Limite élargie */
+  margin:auto;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3); /* ombre plus douce */
+  overflow: auto;
+  animation: fadeIn 0.3s ease-in-out; /* Animation d'apparition */
+  display: flex;
+  
+}
+.close_ad {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1002;
+}
+
+.close_ad:hover {
+  color: red;
+}
+
+
+
+.tables-container-ad > div {
+  flex: 1 1 100%; /* chaque section occupe toute la largeur disponible */
+  min-width: 100%;
+}
+
+.tables-container-ad table th,
+.tables-container-ad table td {
+  padding: 8px 12px;
+  font-size: 16px;
+  text-align: left;
+}
+
+.title_eleve {
+  text-align: center;
+  margin-bottom: 10px;
+   color: #3084c8;
+  font-size: 18px;
+}
+
+.title_parent {
+  text-align: center;
+  margin-bottom: 10px;
+    color: #59946e;
+  font-size: 18px;
+}
+.title_cond {
+  text-align: center;
+  margin-bottom: 10px;
+      color: #b8537d;
+  font-size: 18px;
+}
+
+/*text colonne title*/
+.blue{
+  color: #3084c8;
+  width: 45%;
+}
+.green{
+  color: #53b876;
+  width: 45%;}
+
+.pink{
+  color: #b8537d;
+  width: 45%;}
+
+.color-col{
+   color: #221f20;
+  width: 45%;
+}
+
+.menu-toggle {
+  position: absolute;
+  top: 25px;
+  left: 15px;
+  color: #55616e;
+  border: none;
+  padding: 10px 15px;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/*access page*/
+
+
+.barre_parent {
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to right, #4c80ae, #a8dadc);
+   color: white;
+  height: 70px;
+  border-radius: 8px 8px 0 0;
+ box-shadow: 0 2px 6px rgba(86, 139, 122, 0.617);
+  font-size: 15px;
+  font-weight: bold;
+  position:sticky;
+  top: 0;
+  padding: 0 20px;
+   z-index: 0;
+   width: 97%;
+
+}
+
+.barre_parent h1 {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.logout-parent {
+  background-color: #4c80ae;
+  position:absolute;
+  top: 20px;
+  right:25px;
+  color: #f1f2f2;
+  border: none;
+  padding: 15px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-parent:hover {
+  background-color: #a8dadc;
+}
+#maps {
+  height: 90vh;
+  width: 85%;
+  display: block;
+  margin: auto;
+  top: 10px;
+  position: relative;
+}
+
+.info_tr {
+  height: 40vh;
+  width: 99%;
+  bottom: 0px;
+  left: 40px;
+  background: linear-gradient(to bottom, #ffffffda, #ffffffda);
+  border-radius: 10px 10px 10px 10px;
+  box-shadow: 0 0 8px 0 rgba(174, 186, 182, 0.617);
+  display: block;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 0 10px;
+}
+
+.info_tr i {
+  font-size: 14px;
+  color: #333;
+  text-align:start;
+}
+
+.title-info {
+    color: rgb(48, 70, 84);
+    font-size: 14px;
+    font-weight: normal;
+    z-index: 10;
+}
+
+.info-section {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+/* Section des notifications */
+.notifications-section {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+   
+}
+
+.notif-header {
+    color: rgb(48, 70, 84);
+    font-size: 14px;
+    font-weight: normal;
+    z-index: 10;
+}
+
+/* Conteneur des notifications */
+.notif-container-p {
+    background: white;
+    height: 60vh;
+    border-radius:10px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 0 8px 0 rgba(174, 186, 182, 0.617);
+    margin: 5px; /* Ajoutez cette marge */
+    overflow-y: auto;
+    position: relative;
+}
+
+.notif-container-p .no-notif-p {
+    color: #3e5a64;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 20px;
+}
+
+.notif-container-p .no-notif-p i {
+    font-size: 30px;
+    color: #3e5a64;
+}
+
+/* Styles des messages de notification */
+.notif-message {
+    background-color: #f9f9f9;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #333;
+    border: 0px solid #e9eff3;
+    box-shadow: 0px 4px 15px rgba(188, 196, 201, 0.962);
+}
+
+.notif-message p {
+    margin-top: 0px;
+}
+
+/*barre message*/
+.notif-it {
+    background-color: #f3f7f9;
+    margin: 8px 0 0 8px;
+    padding: 10px;
+    border-radius: 8px;
+    width: 95%;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    animation: fadeIn 0.3s ease-in-out; /* Animation d'apparition */
+    display: block;
+}
+
+.notif-it p {
+    margin: 0;
+    font-weight: 500;
+    color: #424242;
+    font-size: 16px;
+}
+
+.notif-it.montee {
+  border-left: 4px solid #29c72b;
+  background-color: #f8fff8;
+}
+
+.notif-it.descente {
+  border-left: 4px solid #f34f4f;
+  background-color: #fff8f8;
+}
+
+.section-infos {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 30px;
+}

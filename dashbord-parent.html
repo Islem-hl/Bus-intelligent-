@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Parent Tracker</title>
+   
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+  </head>
+<body>
+    <div class="barre_parent">
+    <h1> <i class="fa-solid fa-person-breastfeeding"></i>
+       Bus Scolaire Intelligent - Espace Parent</h1></div>
+    <button class="logout-parent" id="logoutBt"> 
+    <i class="fa-solid fa-right-from-bracket"></i> Déconnexion</button>
+    <div id="maps"></div>
+
+    <div class="section-infos">
+
+      <div class="info-section"> 
+      <div class="title-info">
+      <h2> <i class="fa-solid fa-circle-info">
+        </i>  Information du transport</h2></div>
+        <div id="info_tr"></div>
+      </div>
+
+   <div class="notifications-section">
+        <div class="notif-header">
+          <h2><i class="fa-solid fa-bell"></i> Notifications</h2></div>
+          <div id="notif-container-p" class="notif-container-p">
+            <!-- messages ici --></div>
+    </div>
+  </div>
+
+
+   <!-- Scripts -->      
+ <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="parent/script/config-p.js"></script>
+  <script src="parent/script/auth-p.js"></script>
+  <script src="parent/script/maps.js"></script>
+  <script src="parent/script/GPS.js"></script>
+  <script src="parent/script/eleve.js"></script>
+</body>
+</html>
+
+    
